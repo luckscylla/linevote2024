@@ -1,0 +1,188 @@
+[
+    {
+        "model": "vote.candidate",
+        "pk": 1,
+        "fields": {
+            "name": "賴清德",
+            "party": "民主進步黨",
+            "partner": null,
+            "profile": "中華民國政治人物、醫師，出生於新北市萬里區，現任中華民國副總統和民主進步黨主席。曾任行政院院長、臺南市市長、立法委員、國民大會代表等。 賴清德就讀於臺北市立建國高級中學和國立臺灣大學復健系物理治療組，之後於國立成功大學醫學院取得學士後醫學系學位，並於2003年獲得哈佛大學公共衛生碩士學位。",
+            "politics": "",
+            "facebook": "https://www.facebook.com/chingte/?locale=zh_TW"
+        }
+    },
+    {
+        "model": "vote.candidate",
+        "pk": 2,
+        "fields": {
+            "name": "侯友宜",
+            "party": "中國國民黨",
+            "partner": null,
+            "profile": "中華民國政治人物、前警官，被中國國民黨提名參與2024年總統大選。生於嘉義縣朴子市，現任新北市市長，曾任臺北市政府警察局刑事警察大隊分隊長、桃園縣政府警察局局長、內政部警政署刑事警察局局長、內政部警政署署長、中央警察大學校長、新北市副市長。",
+            "politics": "",
+            "facebook": "https://www.facebook.com/houyuih/?locale=zh_TW"
+        }
+    },
+    {
+        "model": "vote.candidate",
+        "pk": 3,
+        "fields": {
+            "name": "柯文哲",
+            "party": "台灣民眾黨",
+            "partner": null,
+            "profile": "臺灣外科醫師及政治人物，現任台灣民眾黨主席，曾任臺北市市長、臺大醫院急診部醫師、臺大醫院創傷醫學部主任、國立臺灣大學醫學院教授，專長為外科重症醫學、器官移植、人工器官，是臺灣第一位急診與重症加護專職醫師，為臺灣器官標準移植程序的建立者，亦為引進葉克膜技術至臺灣者。",
+            "politics": "",
+            "facebook": "https://www.facebook.com/DoctorKoWJ/?locale=zh_TW"
+        }
+    },
+    {
+        "model": "vote.candidate",
+        "pk": 4,
+        "fields": {
+            "name": "郭台銘",
+            "party": "無黨籍",
+            "partner": null,
+            "profile": "中華民國實業家、慈善家、無黨籍（前中國國民黨籍）政治人物，為鴻海科技集團創辦人，曾多年位居臺灣首富，生於臺北縣板橋鎮，籍貫山西省晉城縣，畢業自中國海事專科學校，中華民國空軍高砲預官退伍，於1974年創立鴻海，其後長期贊助中國國民黨高層政治獻金，卸任後也曾涉足政治工作，2019年參加國民黨總統初選，但未獲提名，使其轉為與親民黨、台灣民眾黨結盟，2023年參加國民黨總統初選，但未獲提名。",
+            "politics": "",
+            "facebook": "https://www.facebook.com/TerryGou1018/?locale=zh_TW"
+        }
+    },
+    {
+        "model": "vote.candidate",
+        "pk": 5,
+        "fields": {
+            "name": "尚未決定",
+            "party": null,
+            "partner": null,
+            "profile": "",
+            "politics": "",
+            "facebook": null
+        }
+    },
+    {
+        "model": "vote.gender",
+        "pk": 1,
+        "fields": {
+            "option": "男"
+        }
+    },
+    {
+        "model": "vote.gender",
+        "pk": 2,
+        "fields": {
+            "option": "女"
+        }
+    },
+    {
+        "model": "vote.gender",
+        "pk": 3,
+        "fields": {
+            "option": "其他"
+        }
+    },
+    {
+        "model": "vote.age",
+        "pk": 1,
+        "fields": {
+            "option": "<20"
+        }
+    },
+    {
+        "model": "vote.age",
+        "pk": 2,
+        "fields": {
+            "option": "20~29"
+        }
+    },
+    {
+        "model": "vote.age",
+        "pk": 3,
+        "fields": {
+            "option": "30~39"
+        }
+    },
+    {
+        "model": "vote.age",
+        "pk": 4,
+        "fields": {
+            "option": "40~49"
+        }
+    },
+    {
+        "model": "vote.age",
+        "pk": 5,
+        "fields": {
+            "option": "50~59"
+        }
+    },
+    {
+        "model": "vote.age",
+        "pk": 6,
+        "fields": {
+            "option": "60~69"
+        }
+    },
+    {
+        "model": "vote.age",
+        "pk": 7,
+        "fields": {
+            "option": ">70"
+        }
+    },
+    {
+        "model": "vote.area",
+        "pk": 1,
+        "fields": {
+            "option": "北北基"
+        }
+    },
+    {
+        "model": "vote.area",
+        "pk": 2,
+        "fields": {
+            "option": "桃竹苗"
+        }
+    },
+    {
+        "model": "vote.area",
+        "pk": 3,
+        "fields": {
+            "option": "中彰投"
+        }
+    },
+    {
+        "model": "vote.area",
+        "pk": 4,
+        "fields": {
+            "option": "雲嘉南"
+        }
+    },
+    {
+        "model": "vote.area",
+        "pk": 5,
+        "fields": {
+            "option": "高屏澎"
+        }
+    },
+    {
+        "model": "vote.area",
+        "pk": 6,
+        "fields": {
+            "option": "宜花東"
+        }
+    },
+    {
+        "model": "vote.area",
+        "pk": 7,
+        "fields": {
+            "option": "金馬"
+        }
+    },
+    {
+        "model": "vote.area",
+        "pk": 8,
+        "fields": {
+            "option": "其他"
+        }
+    }
+]

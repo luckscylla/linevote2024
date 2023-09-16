@@ -1,0 +1,184 @@
+{
+  "type": "bubble",
+  "size": "giga",
+  "header": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "text",
+        "text": "感謝您的參與",
+        "align": "center",
+        "weight": "bold",
+        "size": "lg"
+      },
+      {
+        "type": "separator",
+        "color": "#FFFFFF",
+        "margin": "md"
+      },
+      {
+        "type": "text",
+        "text": "您的 ID: ",
+        "margin": "md"
+      },
+      {
+        "type": "text",
+        "text": "賴/侯/柯 投給 👉 "
+      },
+      {
+        "type": "text",
+        "text": "賴/侯/柯/郭 投給 👉 "
+      },
+      {
+        "type": "text",
+        "text": "最不希望當選 👉 "
+      },
+      {
+        "type": "text",
+        "text": "性別: "
+      },
+      {
+        "type": "text",
+        "text": "年齡: "
+      },
+      {
+        "type": "text",
+        "text": "戶籍地: "
+      }
+    ]
+  },
+  "hero": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "text",
+        "text": "留言給候選人",
+        "size": "lg",
+        "weight": "bold",
+        "align": "center",
+        "flex": 5,
+        "margin": "md"
+      },
+      {
+        "type": "separator",
+        "margin": "md"
+      }
+    ]
+  },
+  "body": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "box",
+        "layout": "horizontal",
+        "contents": [
+          {
+            "type": "box",
+            "layout": "vertical",
+            "contents": [
+              {
+                "type": "button",
+                "height": "md",
+                "color": "#009A00",
+                "action": {
+                  "type": "postback",
+                  "label": "賴清德",
+                  "data": "comment,賴清德",
+                  "inputOption": "openKeyboard",
+                  "fillInText": "賴清德: "
+                }
+              }
+            ]
+          },
+          {
+            "type": "box",
+            "layout": "vertical",
+            "contents": [
+              {
+                "type": "button",
+                "height": "md",
+                "color": "#0000AA",
+                "action": {
+                  "type": "postback",
+                  "label": "侯友宜",
+                  "data": "comment,侯友宜",
+                  "inputOption": "openKeyboard",
+                  "fillInText": "侯友宜: "
+                }
+              }
+            ]
+          },
+          {
+            "type": "box",
+            "layout": "vertical",
+            "contents": [
+              {
+                "type": "button",
+                "height": "md",
+                "color": "#28C8C8",
+                "action": {
+                  "type": "postback",
+                  "label": "柯文哲",
+                  "data": "comment,柯文哲",
+                  "inputOption": "openKeyboard",
+                  "fillInText": "柯文哲: "
+                }
+              }
+            ]
+          },
+          {
+            "type": "box",
+            "layout": "vertical",
+            "contents": [
+              {
+                "type": "button",
+                "height": "md",
+                "color": "#7F7F7F",
+                "action": {
+                  "type": "postback",
+                  "label": "郭台銘",
+                  "data": "comment,郭台銘",
+                  "inputOption": "openKeyboard",
+                  "fillInText": "郭台銘: "
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "box",
+        "layout": "horizontal",
+        "contents": [
+          {
+            "type": "button",
+            "height": "sm",
+            "color": "#9A3B3B",
+            "action": {
+              "type": "postback",
+              "label": "意見回饋",
+              "data": "comment,意見回饋",
+              "inputOption": "openKeyboard",
+              "fillInText": "意見回饋: "
+            }
+          }
+        ]
+      }
+    ],
+    "paddingAll": "0px"
+  },
+  "styles": {
+    "header": {
+      "backgroundColor": "#F0F0F0"
+    },
+    "hero": {
+      "backgroundColor": "#DDDDDD"
+    },
+    "body": {
+      "backgroundColor": "#F0F0F0"
+    }
+  }
+}
