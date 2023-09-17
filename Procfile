@@ -1,0 +1,1 @@
+web: gunicorn linevote-2024.wsgi -log-file -
