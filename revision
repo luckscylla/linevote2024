@@ -21,9 +21,9 @@ To-do-List:
     [x] add a callback function to record vote history
     [x] study how to deploy to server
     [x] upload to github and hide secret key
-    [ ] merge/clean migrations
-    [ ] clean requirement.txt
+    [x] merge/clean migrations
+    [x] create minimized requirement.txt
     [ ] move image to github to save server loading
     [ ] add page to show the vote by gender/age/area
-    [ ] find a sservice to call record function every day (AWS lamda, Google Cloud Functions)
+    [ ] find a service to call record function every day (AWS lamda, Google Cloud Functions)
     [?] check the user is in Taiwan

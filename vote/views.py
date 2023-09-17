@@ -100,10 +100,10 @@ def callback(request):
                     vote = Vote.objects.create(user=user)
 
             # postback event
-            elif isinstance(event, PostbackEvent):
+            elif isinstance(event, PostbackEvent): 
                 line_id = event.source.user_id
                 key, value = (event.postback.data.split(",") + [None])[:2]
-                # print("debug: line_id =", line_id, ", data =", key, value)
+                # print("debug: line_id = ", line_id, ", data = ", key, value)
                 if key == "vote":
                     message = TextSendMessage(text="請問您想投給誰 ? ", quick_reply=quick_reply_option1)
                     line_bot_api.reply_message(event.reply_token, message)
@@ -168,9 +168,15 @@ def callback(request):
                 line_id = event.source.user_id
                 user = User.objects.get(uid=line_id)
                 name, comment = (event.message.text.split(":") + [None])[:2]
+                # print("debug: line_id = ", line_id, ", name = ", name, ", comment = ", comment)
                 if comment is not None:
-                    if name == "意見回饋":
+                    if name == "開始投票":
+                        message = TextSendMessage(text="請問您想投給誰 ? ", quick_reply=quick_reply_option1)
+                        line_bot_api.reply_message(event.reply_token, message)
+
+                    elif name == "意見回饋":
                         name = "尚未決定" 
+
                     try:
                         candidate = Candidate.objects.get(name=name)
                         Comment.objects.update_or_create(user=user, candidate=candidate, defaults={"content": comment})

@@ -4,31 +4,31 @@
 {% load static %}
 
 <a href="https://line.me/R/ti/p/%40{{ line_bot_id }}" target="_blank">
-  <img class="mx-auto d-block" style="max-width: 180px;" src="{% static '' %}/{{ line_bot_id }}.png">
+  <img class="mx-auto d-block" style="max-width: 180px;" src="https://qr-official.line.me/gs/M_{{ line_bot_id }}_BW.png?oat_content=qr">
 </a>
 
 <!-- chart of vates -->
-<div class="container chart-container shadow p-3 mb-5 bg-body rounded" style="position: relative; min-height:60vh">
+<div class="container-xl chart-container shadow p-3 mb-5 bg-body rounded">
   <canvas id="chart_vote"></canvas>
 </div>
 
 <!-- chart of option1 -->
-<div class="container chart-container shadow p-3 mb-5 bg-body rounded" style="position: relative; min-height:60vh">
+<div class="container-xl chart-container shadow p-3 mb-5 bg-body rounded">
   <canvas id="chart_option1"></canvas>
 </div>
 
 <!-- chart of option2 -->
-<div class="container chart-container shadow p-3 mb-5 bg-body rounded" style="position: relative; min-height:60vh">
+<div class="container-xl chart-container shadow p-3 mb-5 bg-body rounded">
   <canvas id="chart_option2"></canvas>
 </div>
 
 <!-- chart of option3 -->
-<div class="container chart-container shadow p-3 mb-5 bg-body rounded" style="position: relative; min-height:60vh">
+<div class="container-xl chart-container shadow p-3 mb-5 bg-body rounded">
   <canvas id="chart_option3"></canvas>
 </div>
 
 <!-- chart of vote sum -->
-<div class="container chart-container shadow p-3 mb-5 bg-body rounded" style="position: relative; min-height:30vh">
+<div class="container-xl chart-container shadow p-3 mb-5 bg-body rounded">
   <canvas id="chart_sum"></canvas>
 </div>
 
@@ -94,7 +94,6 @@
 
   // vote bar chart options
   let options = {
-    maintainAspectRatio: false,
     scales: {
       y: {
         grace: '5%',
@@ -155,7 +154,6 @@
   // option-n line chart
   for (let i = 0; i < record_set.length; i++) {
     let options = {
-      maintainAspectRatio: false,
       scales: {
         y: {
           grace: '5%',
@@ -222,7 +220,7 @@
       }]
     },
     options: {
-      maintainAspectRatio: false,
+      aspectRatio: 3,
       scales: {
         y: {
           grace: '5%',
