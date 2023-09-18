@@ -17,45 +17,45 @@ line_bot_id = settings.LINE_BOT_ID
 line_bot_api = LineBotApi(settings.LINE_CHANNEL_ACCESS_TOKEN)
 parser = WebhookParser(settings.LINE_CHANNEL_SECRET)
 
-# # create quick reply
-# quick_reply_option1 = { "items": [] }
-# quick_reply_option2 = { "items": [] }
-# quick_reply_option3 = { "items": [] }
-# for candidate in Candidate.objects.all().order_by('id'):
-#     name, id = candidate.name, str(candidate.id)
-#     option1 = { "type": "action", "action": { "type": "postback", "label": name, "data": "option1,"+id } }
-#     option2 = { "type": "action", "action": { "type": "postback", "label": name, "data": "option2,"+id } }
-#     option3 = { "type": "action", "action": { "type": "postback", "label": name, "data": "option3,"+id } }
-#     quick_reply_option1['items'].append(option1)
-#     quick_reply_option2['items'].append(option2)
-#     quick_reply_option3['items'].append(option3)
+# create quick reply
+quick_reply_option1 = { "items": [] }
+quick_reply_option2 = { "items": [] }
+quick_reply_option3 = { "items": [] }
+for candidate in Candidate.objects.all().order_by('id'):
+    name, id = candidate.name, str(candidate.id)
+    option1 = { "type": "action", "action": { "type": "postback", "label": name, "data": "option1,"+id } }
+    option2 = { "type": "action", "action": { "type": "postback", "label": name, "data": "option2,"+id } }
+    option3 = { "type": "action", "action": { "type": "postback", "label": name, "data": "option3,"+id } }
+    quick_reply_option1['items'].append(option1)
+    quick_reply_option2['items'].append(option2)
+    quick_reply_option3['items'].append(option3)
 
-# done = { "type": "action", "action": { "type": "postback", "label": "結束", "data": "done,0" } }
-# quick_reply_option1['items'].pop(3)
-# quick_reply_option1['items'].append(done)
-# quick_reply_option2['items'].append(done)
-# quick_reply_option3['items'].append(done)
+done = { "type": "action", "action": { "type": "postback", "label": "結束", "data": "done,0" } }
+quick_reply_option1['items'].pop(3)
+quick_reply_option1['items'].append(done)
+quick_reply_option2['items'].append(done)
+quick_reply_option3['items'].append(done)
 
-# quick_reply_gender = { "items": [] }
-# for gender in Gender.objects.all().order_by('id'):
-#     item = { "type": "action", "action": { "type": "postback", "label": gender.option, "data": "gender,"+str(gender.id) } }
-#     quick_reply_gender['items'].append(item)
-# quick_reply_gender['items'].append(done)
+quick_reply_gender = { "items": [] }
+for gender in Gender.objects.all().order_by('id'):
+    item = { "type": "action", "action": { "type": "postback", "label": gender.option, "data": "gender,"+str(gender.id) } }
+    quick_reply_gender['items'].append(item)
+quick_reply_gender['items'].append(done)
 
-# quick_reply_age = { "items": [] }
-# for age in Age.objects.all().order_by('id'):
-#     item = { "type": "action", "action": { "type": "postback", "label": age.option, "data": "age,"+str(age.id) } }
-#     quick_reply_age['items'].append(item)
-# quick_reply_age['items'].append(done)
+quick_reply_age = { "items": [] }
+for age in Age.objects.all().order_by('id'):
+    item = { "type": "action", "action": { "type": "postback", "label": age.option, "data": "age,"+str(age.id) } }
+    quick_reply_age['items'].append(item)
+quick_reply_age['items'].append(done)
 
-# quick_reply_area = { "items": [] }
-# for area in Area.objects.all().order_by('id'):
-#     item = { "type": "action", "action": { "type": "postback", "label": area.option, "data": "area,"+str(area.id) } }
-#     quick_reply_area['items'].append(item)
-# quick_reply_area['items'].append(done)
+quick_reply_area = { "items": [] }
+for area in Area.objects.all().order_by('id'):
+    item = { "type": "action", "action": { "type": "postback", "label": area.option, "data": "area,"+str(area.id) } }
+    quick_reply_area['items'].append(item)
+quick_reply_area['items'].append(done)
 
-# flexmsg = open('flexmsg.json')
-# flex_message_sum = json.load(flexmsg)
+flexmsg = open('flexmsg.json')
+flex_message_sum = json.load(flexmsg)
     
 
 # set vote information to flex message
