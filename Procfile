@@ -1,2 +1,1 @@
-release: python manage.py migrate
-web: gunicorn linevote.wsgi -log-file -
+web: gunicorn --pythonpath linevote linevote.wsgi --log-file -
