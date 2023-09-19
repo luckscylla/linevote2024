@@ -23,7 +23,7 @@ To-do-List:
     [x] upload to github and hide secret key
     [x] merge/clean migrations
     [x] create minimized requirement.txt
-    [ ] move image to github to save server loading
+    [x] move image to github to save server loading
     [ ] add page to show the vote by gender/age/area
     [ ] find a service to call record function every day (AWS lamda, Google Cloud Functions)
     [?] check the user is in Taiwan
