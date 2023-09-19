@@ -12,22 +12,22 @@
 </div>
 
 <!-- chart of option1 -->
-<div class="container-xl chart-container shadow p-3 mb-5 bg-body rounded">
+<div id='div_option1' class="container-xl chart-container shadow p-3 mb-5 bg-body rounded" hidden>
   <canvas id="chart_option1"></canvas>
 </div>
 
 <!-- chart of option2 -->
-<div class="container-xl chart-container shadow p-3 mb-5 bg-body rounded">
+<div id='div_option2' class="container-xl chart-container shadow p-3 mb-5 bg-body rounded" hidden>
   <canvas id="chart_option2"></canvas>
 </div>
 
 <!-- chart of option3 -->
-<div class="container-xl chart-container shadow p-3 mb-5 bg-body rounded">
+<div id='div_option3' class="container-xl chart-container shadow p-3 mb-5 bg-body rounded" hidden>
   <canvas id="chart_option3"></canvas>
 </div>
 
 <!-- chart of vote sum -->
-<div class="container-xl chart-container shadow p-3 mb-5 bg-body rounded">
+<div id='div_sum' class="container-xl chart-container shadow p-3 mb-5 bg-body rounded" hidden>
   <canvas id="chart_sum"></canvas>
 </div>
 
@@ -89,6 +89,14 @@
         record_set[k][j][i] = record_list[i]['vote'][j][k]
       }
     }
+  }
+
+  // show trend chart when data is available
+  if (record_set.length > 0) {
+    document.getElementById("div_option1").hidden = false;
+    document.getElementById("div_option2").hidden = false;
+    document.getElementById("div_option3").hidden = false;
+    document.getElementById("div_sum").hidden = false;
   }
 
   // vote bar chart options
