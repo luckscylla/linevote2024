@@ -10,11 +10,11 @@ load_dotenv(dotenv_path=Path('linevote/.env'))
 
 LINE_BOT_ID = os.getenv('LINE_BOT_ID')
 LINE_CHANNEL_ACCESS_TOKEN = os.getenv('LINE_CHANNEL_ACCESS_TOKEN')
-LINE_VOTE_HTML = os.getenv('LINE_VOTE_HTML')
 
 line_bot_api = LineBotApi(LINE_CHANNEL_ACCESS_TOKEN)
 headers = { 'Authorization': 'Bearer ' + LINE_CHANNEL_ACCESS_TOKEN, 'Content-Type':'application/json' }
-rich_menu_id = 'richmenu-54e28e9c1637b07b3f3f209df60a3413'
+rich_menu_id = 'richmenu-18612e2f36a5fbcaeedc755a9e84f9de'
+line_vote_url = 'https://linevote-2024-df22c9ebbcf0.herokuapp.com/vote/'
 
 # document
 # https://line-bot-sdk-python.readthedocs.io/en/latest/
@@ -42,7 +42,7 @@ def create_menu():
             },
             {
                 "bounds": { "x": 533, "y": 0, "width": 266, "height": 270 },
-                "action": { "type": "uri", "uri": LINE_VOTE_HTML }
+                "action": { "type": "uri", "uri": line_vote_url }
             },
         ]
     }
