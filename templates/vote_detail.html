@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %} 2024 總統大選虛擬投票 {% endblock %}
+{% block content%}
+
+<div class="container-xl">
+  <h2 class="text-center my-3">2024 總統大選虛擬投票</h2>
+  <table class="table table-striped text-center">
+    <thead>
+      <tr>
+        <th scope="col"></th>
+        <th scope="col"></th>
+        {% for candidate in candidate_list %}
+        <th scope="col">{{ candidate.name }}</th>
+        {% endfor %}
+      </tr>
+    </thead>
+    <tbody>
+      {% for gender_list in gender_array %}
+      <tr>
+        {% if forloop.counter == 1 %}
+        <th class="align-middle table-primary" rowspan="{{ gender_array|length }}" style="max-width: 30px;">性別</th>
+        {% endif %}
+        {% for gender in gender_list %}
+        <td>{{ gender }}</td>
+        {% endfor %}
+      </tr>
+      {% endfor %}
+      {% for age_list in age_array %}
+      <tr>
+        {% if forloop.counter == 1 %}
+        <th class="align-middle table-success" rowspan="{{ age_array|length }}" style="max-width: 30px;">年齡</th>
+        {% endif %}
+        {% for age in age_list %}
+        <td>{{ age }}</td>
+        {% endfor %}
+      </tr>
+      {% endfor %}
+      {% for area_list in area_array %}
+      <tr>
+        {% if forloop.counter == 1 %}
+        <th class="align-middle table-warning" rowspan="{{ area_array|length }}" style="max-width: 30px;">戶籍地</th>
+        {% endif %}
+        {% for area in area_list %}
+        <td>{{ area }}</td>
+        {% endfor %}
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<style>
+  .th {
+    font-size: larger;
+    font-weight: bolder;
+  }
+</style>
+
+{% endblock %}

@@ -24,6 +24,6 @@ To-do-List:
     [x] merge/clean migrations
     [x] create minimized requirement.txt
     [x] move image to github to save server loading
-    [ ] add page to show the vote by gender/age/area
+    [x] add page to show the vote by gender/age/area
     [ ] find a service to call record function every day (AWS lamda, Google Cloud Functions)
     [?] check the user is in Taiwan

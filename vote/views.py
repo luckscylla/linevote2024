@@ -3,6 +3,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseForbidden
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
+from django.db import models
 from django.db.models import Count, Sum
 
 from linebot import LineBotApi, WebhookParser
@@ -233,4 +234,25 @@ def record(request):
 
     return HttpResponse(vote_list)
 
+
+def detail(request):
+    user_list = User.objects.all()
+    candidate_list = Candidate.objects.all()
+    gender_array = [list(Gender.objects.values_list('option', flat=True))]
+    age_array = [list(Age.objects.values_list('option', flat=True))]
+    area_array = [list(Area.objects.values_list('option', flat=True))]
+    for candidate in candidate_list:
+        gender_list = list(Gender.objects.annotate(c=Count('user', filter=models.Q(user__vote__option1=candidate), distinct=True)).values_list('c', flat=True))
+        age_list = list(Age.objects.annotate(c=Count('user', filter=models.Q(user__vote__option1=candidate), distinct=True)).values_list('c', flat=True))
+        area_list = list(Area.objects.annotate(c=Count('user', filter=models.Q(user__vote__option1=candidate), distinct=True)).values_list('c', flat=True))
+        gender_array.append(gender_list)
+        age_array.append(age_list)
+        area_array.append(area_list)
+
+    gender_array = list(map(list, zip(*gender_array)))
+    age_array = list(map(list, zip(*age_array)))
+    area_array = list(map(list, zip(*area_array)))
+
+    context = {'user_list': user_list, 'candidate_list': candidate_list, 'gender_array': gender_array, 'age_array': age_array, 'area_array': area_array}
+    return render(request, 'vote_detail.html', context)
 
