@@ -242,9 +242,9 @@ def detail(request):
     age_array = [list(Age.objects.values_list('option', flat=True))]
     area_array = [list(Area.objects.values_list('option', flat=True))]
     for candidate in candidate_list:
-        gender_list = list(Gender.objects.annotate(c=Count('user', filter=models.Q(user__vote__option1=candidate), distinct=True)).values_list('c', flat=True))
-        age_list = list(Age.objects.annotate(c=Count('user', filter=models.Q(user__vote__option1=candidate), distinct=True)).values_list('c', flat=True))
-        area_list = list(Area.objects.annotate(c=Count('user', filter=models.Q(user__vote__option1=candidate), distinct=True)).values_list('c', flat=True))
+        gender_list = list(Gender.objects.annotate(c=Count('user', filter=models.Q(user__vote__option2=candidate), distinct=True)).values_list('c', flat=True))
+        age_list = list(Age.objects.annotate(c=Count('user', filter=models.Q(user__vote__option2=candidate), distinct=True)).values_list('c', flat=True))
+        area_list = list(Area.objects.annotate(c=Count('user', filter=models.Q(user__vote__option2=candidate), distinct=True)).values_list('c', flat=True))
         gender_array.append(gender_list)
         age_array.append(age_list)
         area_array.append(area_list)
