@@ -28,14 +28,6 @@
       },
       {
         "type": "text",
-        "text": "賴/侯/柯/郭 投給 👉 "
-      },
-      {
-        "type": "text",
-        "text": "最不希望當選 👉 "
-      },
-      {
-        "type": "text",
         "text": "性別: "
       },
       {
@@ -125,24 +117,6 @@
                   "data": "comment,柯文哲",
                   "inputOption": "openKeyboard",
                   "fillInText": "柯文哲: "
-                }
-              }
-            ]
-          },
-          {
-            "type": "box",
-            "layout": "vertical",
-            "contents": [
-              {
-                "type": "button",
-                "height": "md",
-                "color": "#7F7F7F",
-                "action": {
-                  "type": "postback",
-                  "label": "郭台銘",
-                  "data": "comment,郭台銘",
-                  "inputOption": "openKeyboard",
-                  "fillInText": "郭台銘: "
                 }
               }
             ]
