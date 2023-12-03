@@ -55,7 +55,7 @@ def set_vote_message(user, message):
     vote = user.vote
     header = message.contents.header
     header.contents[2].text += str(user.id)
-    header.contents[3].text += vote.candidate.name if vote.option1 is not None else "❓"
+    header.contents[3].text += vote.candidate.name if vote.candidate is not None else "❓"
     header.contents[4].text += user.gender.option if user.gender is not None else "❓"
     header.contents[5].text += user.age.option if user.age is not None else "❓"
     header.contents[6].text += user.area.option if user.area is not None else "❓"
