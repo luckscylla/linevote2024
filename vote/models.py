@@ -80,26 +80,30 @@ class UserAdmin(admin.ModelAdmin):
 # Vote
 class Vote(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    # vote for 賴 / 侯 / 柯
-    option1 = models.ForeignKey(Candidate, on_delete=models.SET_NULL, related_name='option1', blank=True, null=True)
-    # vote for 賴 / 侯 / 柯 / 郭
-    option2 = models.ForeignKey(Candidate, on_delete=models.SET_NULL, related_name='option2', blank=True, null=True)
-    # not vote for 賴 / 侯 / 柯 / 郭
-    option3 = models.ForeignKey(Candidate, on_delete=models.SET_NULL, related_name='option3', blank=True, null=True)
+    candidate = models.ForeignKey(Candidate, on_delete=models.SET_NULL, related_name='candidate', blank=True, null=True)
+    # # vote for 賴 / 侯 / 柯
+    # option1 = models.ForeignKey(Candidate, on_delete=models.SET_NULL, related_name='option1', blank=True, null=True)
+    # # vote for 賴 / 侯 / 柯 / 郭
+    # option2 = models.ForeignKey(Candidate, on_delete=models.SET_NULL, related_name='option2', blank=True, null=True)
+    # # not vote for 賴 / 侯 / 柯 / 郭
+    # option3 = models.ForeignKey(Candidate, on_delete=models.SET_NULL, related_name='option3', blank=True, null=True)
     
     def __str__(self):
         vote = self.user.name
-        if self.option1 is not None:
-            vote += " / "+self.option1.name
-        if self.option2 is not None:
-            vote += " / "+self.option2.name
-        if self.option3 is not None:
-            vote += " / "+self.option3.name
+        if self.candidate is not None:
+            vote += " / "+self.candidate.name
+        # if self.option1 is not None:
+        #     vote += " / "+self.option1.name
+        # if self.option2 is not None:
+        #     vote += " / "+self.option2.name
+        # if self.option3 is not None:
+        #     vote += " / "+self.option3.name
         return vote
 
 @admin.register(Vote)
 class VoteAdmin(admin.ModelAdmin):
-    list_display = ('id', 'user', 'option1', 'option2', 'option3')
+    list_display = ('id', 'user', 'candidate')
+    # list_display = ('id', 'user', 'option1', 'option2', 'option3')
 
 
 # Comment

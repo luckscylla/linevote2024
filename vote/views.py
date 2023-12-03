@@ -19,23 +19,14 @@ line_bot_api = LineBotApi(settings.LINE_CHANNEL_ACCESS_TOKEN)
 parser = WebhookParser(settings.LINE_CHANNEL_SECRET)
 
 # create quick reply
-quick_reply_option1 = { "items": [] }
-quick_reply_option2 = { "items": [] }
-quick_reply_option3 = { "items": [] }
+done = { "type": "action", "action": { "type": "postback", "label": "結束", "data": "done,0" } }
+
+quick_reply_candidate = { "items": [] }
 for candidate in Candidate.objects.all().order_by('id'):
     name, id = candidate.name, str(candidate.id)
-    option1 = { "type": "action", "action": { "type": "postback", "label": name, "data": "option1,"+id } }
-    option2 = { "type": "action", "action": { "type": "postback", "label": name, "data": "option2,"+id } }
-    option3 = { "type": "action", "action": { "type": "postback", "label": name, "data": "option3,"+id } }
-    quick_reply_option1['items'].append(option1)
-    quick_reply_option2['items'].append(option2)
-    quick_reply_option3['items'].append(option3)
-
-done = { "type": "action", "action": { "type": "postback", "label": "結束", "data": "done,0" } }
-quick_reply_option1['items'].pop(3)
-quick_reply_option1['items'].append(done)
-quick_reply_option2['items'].append(done)
-quick_reply_option3['items'].append(done)
+    candidate = { "type": "action", "action": { "type": "postback", "label": name, "data": "candidate,"+id } }
+    quick_reply_candidate['items'].append(candidate)
+quick_reply_candidate['items'].append(done)
 
 quick_reply_gender = { "items": [] }
 for gender in Gender.objects.all().order_by('id'):
@@ -64,12 +55,10 @@ def set_vote_message(user, message):
     vote = user.vote
     header = message.contents.header
     header.contents[2].text += str(user.id)
-    header.contents[3].text += vote.option1.name if vote.option1 is not None else "❓"
-    header.contents[4].text += vote.option2.name if vote.option2 is not None else "❓"
-    header.contents[5].text += vote.option3.name if vote.option3 is not None else "❓"
-    header.contents[6].text += user.gender.option if user.gender is not None else "❓"
-    header.contents[7].text += user.age.option if user.age is not None else "❓"
-    header.contents[8].text += user.area.option if user.area is not None else "❓"
+    header.contents[3].text += vote.candidate.name if vote.option1 is not None else "❓"
+    header.contents[4].text += user.gender.option if user.gender is not None else "❓"
+    header.contents[5].text += user.age.option if user.age is not None else "❓"
+    header.contents[6].text += user.area.option if user.area is not None else "❓"
     return message
 
 
@@ -106,31 +95,15 @@ def callback(request):
                 key, value = (event.postback.data.split(",") + [None])[:2]
                 # print("debug: line_id = ", line_id, ", data = ", key, value)
                 if key == "vote":
-                    message = TextSendMessage(text="請問您想投給誰 ? ", quick_reply=quick_reply_option1)
+                    message = TextSendMessage(text="請問您想投給誰 ? ", quick_reply=quick_reply_candidate)
                     line_bot_api.reply_message(event.reply_token, message)
 
-                elif key == "option1":
-                    message = TextSendMessage(text="以下組合，您想投給誰 ? ", quick_reply=quick_reply_option2)
-                    line_bot_api.reply_message(event.reply_token, message)
-                    vote = Vote.objects.get(user__uid=line_id)
-                    if vote.option1 is None or vote.option1.id != int(value):
-                        vote.option1 = Candidate.objects.get(id=int(value))
-                        vote.save()
-
-                elif key == "option2":
-                    message = TextSendMessage(text="請問您最不希望誰當選 ? ", quick_reply=quick_reply_option3)
-                    line_bot_api.reply_message(event.reply_token, message)
-                    vote = Vote.objects.get(user__uid=line_id)
-                    if vote.option2 is None or vote.option2.id != int(value):
-                        vote.option2 = Candidate.objects.get(id=int(value))
-                        vote.save()
-
-                elif key == "option3":
+                elif key == "candidate":
                     message = TextSendMessage(text="請問您的性別是 ? ", quick_reply=quick_reply_gender)
                     line_bot_api.reply_message(event.reply_token, message)
                     vote = Vote.objects.get(user__uid=line_id)
-                    if vote.option3 is None or vote.option3.id != int(value):
-                        vote.option3 = Candidate.objects.get(id=int(value))
+                    if vote.candidate is None or vote.candidate.id != int(value):
+                        vote.candidate = Candidate.objects.get(id=int(value))
                         vote.save()
 
                 elif key == "gender":
@@ -172,7 +145,7 @@ def callback(request):
                 # print("debug: line_id = ", line_id, ", name = ", name, ", comment = ", comment)
                 if comment is not None:
                     if name == "開始投票":
-                        message = TextSendMessage(text="請問您想投給誰 ? ", quick_reply=quick_reply_option1)
+                        message = TextSendMessage(text="請問您想投給誰 ? ", quick_reply=quick_reply_candidate)
                         line_bot_api.reply_message(event.reply_token, message)
 
                     elif name == "意見回饋":
@@ -208,14 +181,13 @@ def callback(request):
 #     i -= 1
 
 def index(request):
-    candidate_list = Candidate.objects.all().order_by('id')[:4]
+    candidate_list = Candidate.objects.all().order_by('id')[:3]
     for candidate in candidate_list:
         comment_list = Comment.objects.filter(candidate=candidate).order_by('-date')[:20]
         candidate.comments = comment_list.values_list('user__name', 'content')
 
-    vote_list = list(Candidate.objects.annotate(cnt1=Count('option1', distinct=True), cnt2=Count('option2', distinct=True), 
-            cnt3=Count('option3', distinct=True)).values_list('cnt1', 'cnt2', 'cnt3'))
-    vote_list = list(map(list, zip(*vote_list)))
+    vote_list = list(Candidate.objects.annotate(cnt=Count('candidate', distinct=True)).values_list('cnt', flat=True))
+    # vote_list = list(map(list, zip(*vote_list)))
 
     # history_list = list(History.objects.annotate(date_=Cast('date', TextField())).values('date_', 'vote'))
     history_list = list(History.objects.values('date', 'vote'))
@@ -226,9 +198,9 @@ def index(request):
 
 def record(request):
     date = datetime.datetime.now()
-    vote_list = list(Candidate.objects.annotate(cnt1=Count('option1', distinct=True), cnt2=Count('option2', distinct=True), 
-            cnt3=Count('option3', distinct=True)).values_list('cnt1', 'cnt2', 'cnt3'))
-    vote_list = list(map(list, vote_list))
+    vote_list = list(Candidate.objects.annotate(cnt=Count('candidate', distinct=True)).values_list('cnt', flat=True))
+    # vote_list = list(map(list, vote_list))
+    print("vote_list = ", vote_list)
     
     History.objects.update_or_create(date=date, defaults={"vote": vote_list})
 
@@ -242,9 +214,9 @@ def detail(request):
     age_array = [list(Age.objects.values_list('option', flat=True))]
     area_array = [list(Area.objects.values_list('option', flat=True))]
     for candidate in candidate_list:
-        gender_list = list(Gender.objects.annotate(c=Count('user', filter=models.Q(user__vote__option2=candidate), distinct=True)).values_list('c', flat=True))
-        age_list = list(Age.objects.annotate(c=Count('user', filter=models.Q(user__vote__option2=candidate), distinct=True)).values_list('c', flat=True))
-        area_list = list(Area.objects.annotate(c=Count('user', filter=models.Q(user__vote__option2=candidate), distinct=True)).values_list('c', flat=True))
+        gender_list = list(Gender.objects.annotate(c=Count('user', filter=models.Q(user__vote__candidate=candidate), distinct=True)).values_list('c', flat=True))
+        age_list = list(Age.objects.annotate(c=Count('user', filter=models.Q(user__vote__candidate=candidate), distinct=True)).values_list('c', flat=True))
+        area_list = list(Area.objects.annotate(c=Count('user', filter=models.Q(user__vote__candidate=candidate), distinct=True)).values_list('c', flat=True))
         gender_array.append(gender_list)
         age_array.append(age_list)
         area_array.append(area_list)

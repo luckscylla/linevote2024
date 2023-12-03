@@ -1,10 +1,10 @@
 
-9/16/2023   v0.01
+09/16/2023   v0.01
     - Newly created
-
+12/03/2023  v0.02
+    - Update data
 
 To-do-List:
-
     [x] add rich menu
     [x] store the vote to database
     [x] add most dislike option

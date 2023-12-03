@@ -11,19 +11,9 @@
   <canvas id="chart_vote"></canvas>
 </div>
 
-<!-- chart of option1 -->
-<div id='div_option1' class="container-xl chart-container shadow p-3 mb-5 bg-body rounded" hidden>
-  <canvas id="chart_option1"></canvas>
-</div>
-
-<!-- chart of option2 -->
-<div id='div_option2' class="container-xl chart-container shadow p-3 mb-5 bg-body rounded" hidden>
-  <canvas id="chart_option2"></canvas>
-</div>
-
-<!-- chart of option3 -->
-<div id='div_option3' class="container-xl chart-container shadow p-3 mb-5 bg-body rounded" hidden>
-  <canvas id="chart_option3"></canvas>
+<!-- chart of candidate -->
+<div id='div_candidate' class="container-xl chart-container shadow p-3 mb-5 bg-body rounded" hidden>
+  <canvas id="chart_candidate"></canvas>
 </div>
 
 <!-- chart of vote sum -->
@@ -35,15 +25,20 @@
 <div class="container-fluid">
   <div class="row">
     {% for candidate in candidate_list %}
-    <div class="col-lg-3 col-sm-6 px-xl-2 px-sm-1 my-3">
+    <div class="col-lg-4 col-sm-6 px-xl-2 px-sm-1 my-3">
       <div class="card">
         <a href="{{ candidate.facebook }}" target="_blank">
-          <img src="https://github.com/luckscylla/linevote2024/blob/main/static/{{ candidate.name }}.jpg?raw=true" class="card-img-top" style="border-radius: 50%">
+          <img src="https://github.com/luckscylla/linevote2024/blob/main/static/{{ candidate.name }}.jpg?raw=true" class="card-img-top p-3" style="border-radius: 50%">
         </a>
         <div class="card-body">
           <div class="row">
-            <div class="col-9"><span class="fs-3 fw-bolder"> {{ candidate.name }} </span><span> {{ candidate.party }}
-              </span></div>
+            <div class="col-9">
+              <div class="row">
+              <div class="col-12"><span class="fs-3 fw-bolder"> {{ candidate.name }} </span><span> {{ candidate.party }}
+                </span></div>
+                <div class="col-10 fw-bolder"> 副手 : {{ candidate.partner }} </div>
+              </div>
+            </div>
             <img class="col-3" style="object-fit: contain;" src="https://github.com/luckscylla/linevote2024/blob/main/static/{{ candidate.party }}.png?raw=true">
           </div>
           <hr>
@@ -61,45 +56,51 @@
   </div>
 </div>
 
+<hr>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-4">調查單位 : Line 個人用戶</div>
+    <div class="col-4">主持人 : Line 個人用戶</div>
+    <div class="col-4">辦理時間 : 2023-12-03 之後</div>
+    <div class="col-4">抽樣方式 : 隨機邀請 Line 用戶</div>
+    <div class="col-4">母體數 : 所有 Line 用戶</div>
+    <div class="col-4">樣本數 : 隨時間增加</div>
+    <div class="col-4">誤差值 : 無法估算</div>
+    <div class="col-4">經費來源 : Line 個人用戶</div>
+  </div>
+</div>
 
 <script>
   const title = '2024 總統大選虛擬投票'
-  const name_set = ['賴清德', '侯友宜', '柯文哲', '郭台銘', '尚未決定']
-  const option_set = ['賴/侯/柯', '賴/侯/柯/郭', '最不希望當選']
-  const color_set = [
-    ['rgba(0, 154, 0, 0.8)', 'rgba(0, 0, 170, 0.8)', 'rgba(40, 200, 200, 0.8)', 'rgba(127, 127, 127, 0.8)', 'rgba(154, 59, 59, 0.8)'],
-    ['rgba(0, 154, 0, 0.5)', 'rgba(0, 0, 170, 0.5)', 'rgba(40, 200, 200, 0.5)', 'rgba(127, 127, 127, 0.5)', 'rgba(154, 59, 59, 0.5)'],
-    ['rgba(0, 154, 0, 0.2)', 'rgba(0, 0, 170, 0.2)', 'rgba(40, 200, 200, 0.2)', 'rgba(127, 127, 127, 0.2)', 'rgba(154, 59, 59, 0.2)']
-  ]
+  const name_set = ['賴清德', '侯友宜', '柯文哲', '尚未決定']
+  const color_set = ['rgba(0, 154, 0, 0.6)', 'rgba(0, 0, 170, 0.6)', 'rgba(40, 200, 200, 0.6)', 'rgba(127, 127, 127, 0.6)']
   const datetime = new Date()
   const vote_set = {{ vote_list }}
   const record_list = {{ history_list| safe }}
   const vote_sum = []
   const date_set = []
-  const record_set = Array(3).fill().map(() => Array(5).fill().map(() => Array(record_list.length)));
+  const record_set = Array(4).fill().map(() => Array(record_list.length));
   // loop date
   for (let i = 0; i < record_list.length; i++) {
     vote_sum[i] = 0
     date_set.push(record_list[i]['date'].substring(5, 10))
     // loop candidate
     for (let j = 0; j < record_list[i]['vote'].length; j++) {
-      vote_sum[i] += record_list[i]['vote'][j][1]
-      // loop options
-      for (let k = 0; k < record_list[i]['vote'][j].length; k++) {
-        record_set[k][j][i] = record_list[i]['vote'][j][k]
-      }
+      vote_sum[i] += record_list[i]['vote'][j]
+    }
+    for (let j = 0; j < record_list[i]['vote'].length; j++) {
+      record_set[j][i] = Math.round(record_list[i]['vote'][j] / vote_sum[i] * 1000 ) / 10
     }
   }
 
   // show trend chart when data is available
   if (record_list.length > 0) {
-    document.getElementById("div_option1").hidden = false;
-    document.getElementById("div_option2").hidden = false;
-    document.getElementById("div_option3").hidden = false;
+    document.getElementById("div_candidate").hidden = false;
     document.getElementById("div_sum").hidden = false;
   }
 
-  // vote bar chart options
+  
+  // bar chart of vote options
   let options = {
     scales: {
       y: {
@@ -126,7 +127,7 @@
         font: { size: 20, weight: 'bold' },
       },
       legend: {
-        labels: { font: { size: 20, weight: 'bold' } }
+        display: false
       },
       datalabels: {
         color: '#666',
@@ -137,15 +138,11 @@
     }
   }
 
-  let datasets = []
-  for (let i = 0; i < vote_set.length; i++) {
-    datasets.push({
-      label: option_set[i],
-      data: vote_set[i],
-      backgroundColor: color_set[i],
-      borderWidth: 1,
-    })
-  }
+  let datasets = [{
+    data: vote_set,
+    backgroundColor: color_set,
+    borderWidth: 1,
+  }]
 
   let ctx = document.getElementById('chart_vote');
   new Chart(ctx, {
@@ -158,62 +155,61 @@
     options: options
   });
 
-  // option-n line chart
-  for (let i = 0; i < record_set.length; i++) {
-    let options = {
-      scales: {
-        y: {
-          grace: '5%',
-          beginAtZero: true,
-          ticks: { font: { size: 16, weight: 'bold' } }
-        },
-        x: {
-          ticks: { font: { size: 16, weight: 'bold' } }
-        }
+
+  // line chart of candidate
+  let options_candidate = {
+    scales: {
+      y: {
+        grace: '5%',
+        beginAtZero: true,
+        ticks: { font: { size: 16, weight: 'bold' } }
       },
-      plugins: {
-        title: {
-          display: true,
-          text: option_set[i],
-          color: '#9A3B3B',
-          font: { size: 32 },
-          padding: { top: 20, bottom: 10 }
-        },
-        legend: {
-          labels: { font: { size: 20, weight: 'bold' } }
-        },
-        datalabels: {
-          color: '#666',
-          font: { size: 18, weight: 'bold' },
-          align: 'end'
-        }
+      x: {
+        ticks: { font: { size: 16, weight: 'bold' } }
+      }
+    },
+    plugins: {
+      title: {
+        display: true,
+        text: '投票趨勢',
+        color: '#9A3B3B',
+        font: { size: 32 },
+        padding: { top: 20, bottom: 10 }
+      },
+      legend: {
+        labels: { font: { size: 20, weight: 'bold' } }
+      },
+      datalabels: {
+        color: '#666',
+        font: { size: 18, weight: 'bold' },
+        align: 'end'
       }
     }
-
-    let datasets = []
-    for (let j = 0; j < record_set[i].length; j++) {
-      datasets.push({
-        label: name_set[j],
-        data: record_set[i][j],
-        borderColor: color_set[0][j],
-        borderWidth: 3
-      })
-    }
-    if (i == 0) { datasets[3].hidden = true }
-
-    let ctx = document.getElementById('chart_option' + (i + 1));
-    new Chart(ctx, {
-      plugins: [ChartDataLabels],
-      type: 'line',
-      data: {
-        labels: date_set,
-        datasets: datasets
-      },
-      options: options
-    });
-
   }
 
+  let datasets_candidate = []
+  for (let j = 0; j < record_set.length; j++) {
+    datasets_candidate.push({
+      label: name_set[j],
+      data: record_set[j],
+      borderColor: color_set[j],
+      borderWidth: 3
+    })
+  }
+
+  let ctx_candidate = document.getElementById('chart_candidate');
+  new Chart(ctx_candidate, {
+    plugins: [ChartDataLabels],
+    type: 'line',
+    data: {
+      labels: date_set,
+      datasets: datasets_candidate
+    },
+    options: options_candidate
+  });
+
+
+  // line chart of vote sum
   let ctx_sum = document.getElementById('chart_sum');
   new Chart(ctx_sum, {
     plugins: [ChartDataLabels],
