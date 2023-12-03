@@ -19,12 +19,12 @@
       },
       {
         "type": "text",
-        "text": "您的 ID: ",
+        "text": "我的 ID: ",
         "margin": "md"
       },
       {
         "type": "text",
-        "text": "賴/侯/柯 投給 👉 "
+        "text": "我想投給: "
       },
       {
         "type": "text",
@@ -61,75 +61,69 @@
   },
   "body": {
     "type": "box",
-    "layout": "vertical",
+    "layout": "horizontal",
     "contents": [
       {
         "type": "box",
-        "layout": "horizontal",
+        "layout": "vertical",
         "contents": [
           {
-            "type": "box",
-            "layout": "vertical",
-            "contents": [
-              {
-                "type": "button",
-                "height": "md",
-                "color": "#009A00",
-                "action": {
-                  "type": "postback",
-                  "label": "賴清德",
-                  "data": "comment,賴清德",
-                  "inputOption": "openKeyboard",
-                  "fillInText": "賴清德: "
-                }
-              }
-            ]
-          },
-          {
-            "type": "box",
-            "layout": "vertical",
-            "contents": [
-              {
-                "type": "button",
-                "height": "md",
-                "color": "#0000AA",
-                "action": {
-                  "type": "postback",
-                  "label": "侯友宜",
-                  "data": "comment,侯友宜",
-                  "inputOption": "openKeyboard",
-                  "fillInText": "侯友宜: "
-                }
-              }
-            ]
-          },
-          {
-            "type": "box",
-            "layout": "vertical",
-            "contents": [
-              {
-                "type": "button",
-                "height": "md",
-                "color": "#28C8C8",
-                "action": {
-                  "type": "postback",
-                  "label": "柯文哲",
-                  "data": "comment,柯文哲",
-                  "inputOption": "openKeyboard",
-                  "fillInText": "柯文哲: "
-                }
-              }
-            ]
+            "type": "button",
+            "height": "md",
+            "color": "#009A00",
+            "action": {
+              "type": "postback",
+              "label": "賴清德",
+              "data": "comment,賴清德",
+              "inputOption": "openKeyboard",
+              "fillInText": "賴清德: "
+            }
           }
         ]
       },
       {
         "type": "box",
-        "layout": "horizontal",
+        "layout": "vertical",
         "contents": [
           {
             "type": "button",
-            "height": "sm",
+            "height": "md",
+            "color": "#0000AA",
+            "action": {
+              "type": "postback",
+              "label": "侯友宜",
+              "data": "comment,侯友宜",
+              "inputOption": "openKeyboard",
+              "fillInText": "侯友宜: "
+            }
+          }
+        ]
+      },
+      {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "button",
+            "height": "md",
+            "color": "#28C8C8",
+            "action": {
+              "type": "postback",
+              "label": "柯文哲",
+              "data": "comment,柯文哲",
+              "inputOption": "openKeyboard",
+              "fillInText": "柯文哲: "
+            }
+          }
+        ]
+      },
+      {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "button",
+            "height": "md",
             "color": "#9A3B3B",
             "action": {
               "type": "postback",
