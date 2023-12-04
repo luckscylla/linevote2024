@@ -28,11 +28,11 @@ for candidate in Candidate.objects.all().order_by('id'):
     quick_reply_candidate['items'].append(candidate)
 quick_reply_candidate['items'].append(done)
 
-quick_reply_party = { "items": [] }
-for party in Party.objects.all().order_by('id'):
-    item = { "type": "action", "action": { "type": "postback", "label": party.name, "data": "party,"+str(party.id) } }
-    quick_reply_party['items'].append(item)
-quick_reply_party['items'].append(done)
+# quick_reply_party = { "items": [] }
+# for party in Party.objects.all().order_by('id'):
+#     item = { "type": "action", "action": { "type": "postback", "label": party.name, "data": "party,"+str(party.id) } }
+#     quick_reply_party['items'].append(item)
+# quick_reply_party['items'].append(done)
 
 quick_reply_gender = { "items": [] }
 for gender in Gender.objects.all().order_by('id'):
