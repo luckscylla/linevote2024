@@ -19,6 +19,19 @@ class CandidateAdmin(admin.ModelAdmin):
     ordering = ['id']
 
 
+# Party
+class Party(models.Model):
+    name = models.CharField(max_length=8)
+
+    def __str__(self):
+        return self.name
+
+@admin.register(Party)
+class PartyAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name')
+    ordering = ['id']
+
+
 # Gender (男 / 女 / 其他)
 class Gender(models.Model):
     option = models.CharField(max_length=4, unique=True)
@@ -81,6 +94,7 @@ class UserAdmin(admin.ModelAdmin):
 class Vote(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     candidate = models.ForeignKey(Candidate, on_delete=models.SET_NULL, related_name='candidate', blank=True, null=True)
+    party = models.ForeignKey(Party, on_delete=models.SET_NULL, related_name='party', blank=True, null=True)
     # # vote for 賴 / 侯 / 柯
     # option1 = models.ForeignKey(Candidate, on_delete=models.SET_NULL, related_name='option1', blank=True, null=True)
     # # vote for 賴 / 侯 / 柯 / 郭
@@ -92,6 +106,8 @@ class Vote(models.Model):
         vote = self.user.name
         if self.candidate is not None:
             vote += " / "+self.candidate.name
+        if self.party is not None:
+            vote += " / "+self.party.name
         # if self.option1 is not None:
         #     vote += " / "+self.option1.name
         # if self.option2 is not None:
@@ -102,7 +118,7 @@ class Vote(models.Model):
 
 @admin.register(Vote)
 class VoteAdmin(admin.ModelAdmin):
-    list_display = ('id', 'user', 'candidate')
+    list_display = ('id', 'user', 'candidate', 'party')
     # list_display = ('id', 'user', 'option1', 'option2', 'option3')
 
 

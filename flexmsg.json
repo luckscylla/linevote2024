@@ -24,7 +24,11 @@
       },
       {
         "type": "text",
-        "text": "我想投給: "
+        "text": "總統投給: "
+      },
+      {
+        "type": "text",
+        "text": "政黨投給: "
       },
       {
         "type": "text",

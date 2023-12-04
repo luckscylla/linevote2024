@@ -9,7 +9,7 @@ from django.db.models import Count, Sum
 from linebot import LineBotApi, WebhookParser
 from linebot.exceptions import InvalidSignatureError, LineBotApiError
 from linebot.models import FollowEvent, MessageEvent, PostbackEvent, TextSendMessage, FlexSendMessage
-from .models import Candidate, Gender, Age, Area, User, Vote, Comment, History
+from .models import Party, Candidate, Gender, Age, Area, User, Vote, Comment, History
 import datetime
 import json
 
@@ -27,6 +27,12 @@ for candidate in Candidate.objects.all().order_by('id'):
     candidate = { "type": "action", "action": { "type": "postback", "label": name, "data": "candidate,"+id } }
     quick_reply_candidate['items'].append(candidate)
 quick_reply_candidate['items'].append(done)
+
+quick_reply_party = { "items": [] }
+for party in Party.objects.all().order_by('id'):
+    item = { "type": "action", "action": { "type": "postback", "label": party.name, "data": "party,"+str(party.id) } }
+    quick_reply_party['items'].append(item)
+quick_reply_party['items'].append(done)
 
 quick_reply_gender = { "items": [] }
 for gender in Gender.objects.all().order_by('id'):
@@ -56,9 +62,10 @@ def set_vote_message(user, message):
     header = message.contents.header
     header.contents[2].text += str(user.id)
     header.contents[3].text += vote.candidate.name if vote.candidate is not None else "❓"
-    header.contents[4].text += user.gender.option if user.gender is not None else "❓"
-    header.contents[5].text += user.age.option if user.age is not None else "❓"
-    header.contents[6].text += user.area.option if user.area is not None else "❓"
+    header.contents[4].text += vote.party.name if vote.party is not None else "❓"
+    header.contents[5].text += user.gender.option if user.gender is not None else "❓"
+    header.contents[6].text += user.age.option if user.age is not None else "❓"
+    header.contents[7].text += user.area.option if user.area is not None else "❓"
     return message
 
 
@@ -99,11 +106,19 @@ def callback(request):
                     line_bot_api.reply_message(event.reply_token, message)
 
                 elif key == "candidate":
-                    message = TextSendMessage(text="請問您的性別是 ? ", quick_reply=quick_reply_gender)
+                    message = TextSendMessage(text="請問您支持的政黨是 ? ", quick_reply=quick_reply_party)
                     line_bot_api.reply_message(event.reply_token, message)
                     vote = Vote.objects.get(user__uid=line_id)
                     if vote.candidate is None or vote.candidate.id != int(value):
                         vote.candidate = Candidate.objects.get(id=int(value))
+                        vote.save()
+
+                elif key == "party":
+                    message = TextSendMessage(text="請問您的性別是 ? ", quick_reply=quick_reply_gender)
+                    line_bot_api.reply_message(event.reply_token, message)
+                    vote = Vote.objects.get(user__uid=line_id)
+                    if vote.party is None or vote.party.id != int(value):
+                        vote.party = Party.objects.get(id=int(value))
                         vote.save()
 
                 elif key == "gender":
@@ -144,11 +159,7 @@ def callback(request):
                 name, comment = (event.message.text.split(":") + [None])[:2]
                 # print("debug: line_id = ", line_id, ", name = ", name, ", comment = ", comment)
                 if comment is not None:
-                    if name == "開始投票":
-                        message = TextSendMessage(text="請問您想投給誰 ? ", quick_reply=quick_reply_candidate)
-                        line_bot_api.reply_message(event.reply_token, message)
-
-                    elif name == "意見回饋":
+                    if name == "意見回饋":
                         name = "尚未決定" 
 
                     try:
@@ -186,8 +197,13 @@ def index(request):
         comment_list = Comment.objects.filter(candidate=candidate).order_by('-date')[:20]
         candidate.comments = comment_list.values_list('user__name', 'content')
 
-    vote_list = list(Candidate.objects.annotate(cnt=Count('candidate', distinct=True)).values_list('cnt', flat=True))
+    candi_list = list(Candidate.objects.annotate(cnt=Count('candidate', distinct=True)).values_list('cnt', flat=True))
+    party_list = list(Party.objects.annotate(cnt=Count('party', distinct=True)).values_list('cnt', flat=True))
+    vote_list = [candi_list, party_list]
     # vote_list = list(map(list, zip(*vote_list)))
+
+    test_list = list(Vote.objects.annotate(cnt=Count('party', distinct=True)).values_list('cnt', flat=True))
+    print("test_list = ", test_list)
 
     # history_list = list(History.objects.annotate(date_=Cast('date', TextField())).values('date_', 'vote'))
     history_list = list(History.objects.values('date', 'vote'))
@@ -198,9 +214,10 @@ def index(request):
 
 def record(request):
     date = datetime.datetime.now()
-    vote_list = list(Candidate.objects.annotate(cnt=Count('candidate', distinct=True)).values_list('cnt', flat=True))
+    candi_list = list(Candidate.objects.annotate(cnt=Count('candidate', distinct=True)).values_list('cnt', flat=True))
+    party_list = list(Party.objects.annotate(cnt=Count('party', distinct=True)).values_list('cnt', flat=True))
+    vote_list = [candi_list, party_list]
     # vote_list = list(map(list, vote_list))
-    print("vote_list = ", vote_list)
     
     History.objects.update_or_create(date=date, defaults={"vote": vote_list})
 
